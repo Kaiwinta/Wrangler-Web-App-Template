@@ -12,6 +12,6 @@ have dotnet 10 installed
 
 use `wrangler pages dev`
 
-### Launc the web app
+### Launch the web app
 
 use `dotnet run --project PROJECTNAME`
