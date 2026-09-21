@@ -1,0 +1,46 @@
+
+# .NET / Blazor
+bin/
+obj/
+out/
+
+# Blazor WebAssembly build output
+wwwroot/_framework/
+wwwroot/_content/
+wwwroot/service-worker-assets.js
+
+# User-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node (si utilisé pour tooling)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Environment / secrets
+.env
+.env.*
+wrangler.toml
+.wrangler/
+.dev.vars
+
+*.aup3
+.claude/

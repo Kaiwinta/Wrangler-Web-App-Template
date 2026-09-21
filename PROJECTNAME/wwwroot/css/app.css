@@ -1,0 +1,174 @@
+:root {
+    --bg: #0e1014;
+    --card: #1a1d23;
+    --text: #e8e8e8;
+    --muted: #9ca3af;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+main {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 24px;
+}
+
+.title {
+    font-size: 2.2rem;
+    margin-bottom: 24px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+audio {
+    width: 100%;
+}
+
+.text {
+    line-height: 1.7;
+}
+
+.line-break {
+    height: 0px;
+    margin-bottom: 0.5rem; /* ≈ 5 mm vertical spacing */
+}
+
+.story-map-popup-link {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 4px 10px;
+    background: var(--card);
+    color: var(--text);
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.story-map-popup-link:hover {
+    opacity: 0.85;
+}
+
+.story-map-popup-list {
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Main card container.
+   Defines the overall height and vertical layout of the card. */
+.image-card {
+    height: clamp(250px, 50vw, 500px);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.small-image-card {
+    height: clamp(140px, 20vw, 220px); /* scales between 140px and 220px */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden; /* prevent text blowout */
+}
+
+/* Image viewport wrapper.
+   Acts as a clipping and positioning context for the background image. */
+.image-wrapper {
+    flex: 1;                /* Take all the vertical space available */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image-wrapper img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.item-card-placeholder {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.18));
+    color: var(--mud-palette-text-secondary);
+}
+
+/* Home page */
+.home-hero {
+    position: relative;
+    text-align: center;
+    padding: 56px 16px 40px;
+    overflow: hidden;
+}
+
+.home-title {
+    font-weight: 900 !important;
+}
+
+.home-subtitle {
+    color: var(--mud-palette-text-secondary);
+    margin-top: 8px;
+}
+
+.home-card {
+    position: relative;
+    border-radius: 20px;
+    padding: 32px 24px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.home-card:hover {
+    transform: translateY(-6px) rotate(-0.5deg);
+}
+
+.home-card-content {
+    text-align: center;
+    padding: 0 !important;
+}
+
+.home-card-icon {
+    margin-bottom: 8px;
+}
+
+.home-card-description {
+    color: var(--mud-palette-text-secondary);
+    margin-top: 4px;
+}
+
+/* Text layer */
+.overlay {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    color: white;
+    text-shadow: 0 2px 6px rgba(0,0,0,.7);
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+

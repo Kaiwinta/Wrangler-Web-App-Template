@@ -1,0 +1,4 @@
+name: dev
+variables:
+  - name: BaseUrl
+    value: http://127.0.0.1:8788

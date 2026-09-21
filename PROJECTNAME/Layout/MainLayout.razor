@@ -1,0 +1,151 @@
+﻿@inherits LayoutComponentBase
+@using PROJECTNAME.Shared
+@using PROJECTNAME.Resources
+@using PROJECTNAME.Services
+@using Microsoft.Extensions.Localization
+@inject IBrowserViewportService ViewportService
+@inject NavigationManager NavigationManager
+@inject CultureService CultureService
+@inject IStringLocalizer<SharedResource> Loc
+@implements IAsyncDisposable
+
+<MudThemeProvider Theme="@AppTheme.Theme" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<MudLayout>
+    <!-- TOP BAR -->
+    <MudAppBar Elevation="2" Color="Color.Primary" Class="layout-appbar">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu"
+                       Color="Color.Inherit"
+                       Edge="Edge.Start"
+                       OnClick="ToggleDrawer" />
+
+        <MudText Typo="Typo.h6" Class="ml-3 font-weight-bold">
+            PROJECTNAME
+        </MudText>
+        
+        <MudSpacer />
+
+        <MudTooltip Text="@Loc["LanguageToggleTooltip"]">
+            <MudButton Color="Color.Inherit"
+                       Variant="Variant.Text"
+                       StartIcon="@Icons.Material.Filled.Translate"
+                       OnClick="ToggleLanguage">
+                @CurrentCultureLabel
+            </MudButton>
+        </MudTooltip>
+
+        <MudIconButton Icon="@(_isDarkMode ? @Icons.Material.Filled.LightMode: @Icons.Material.Filled.ModeNight)"
+                       Color="Color.Inherit"
+                       OnClick="ToggleTheme" />
+    </MudAppBar>
+
+    <!-- SIDE NAVIGATION DRAWER -->
+    <MudDrawer @ref="_drawer"
+               Open="@_drawerOpen"
+               Variant="DrawerVariant.Responsive"
+               Elevation="1"
+               ClipMode="DrawerClipMode.Always"
+               Class="layout-drawer">
+
+        <MudNavMenu Class="nav-menu">
+            <MudNavLink Href="/"
+                        Match="NavLinkMatch.All"
+                        Icon="@Icons.Material.Filled.Home"
+                        Class="nav-link">
+                @Loc["NavHome"]
+            </MudNavLink>
+
+            <MudNavLink Href="/folder"
+                        Icon="@Icons.Material.Filled.Book"
+                        Class="nav-link">
+                @Loc["NavStories"]
+            </MudNavLink>
+
+            <MudNavLink Href="/places"
+                        Icon="@Icons.Material.Filled.Map"
+                        Class="nav-link">
+                @Loc["NavPlaces"]
+            </MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent Class="layout-main-content">
+        <div class="content-wrapper" style="background-color: var(--mud-palette-background)">
+            <CascadingValue Value="@_breakpoint">
+                @Body
+            </CascadingValue>
+        </div>
+        <!-- FOOTER -->
+        <footer class="layout-footer">
+            <MudText Typo="Typo.caption" Class="footer-text">
+                © @GetCurrentYear() <strong>PROJECTNAME</strong> - @Loc["FooterRights"]
+            </MudText>
+        </footer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private MudDrawer _drawer;
+    private bool _drawerOpen = true;
+    
+    private bool _isDarkMode;
+    private Breakpoint _breakpoint;
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
+    }
+
+    private string CurrentCultureLabel =>
+        System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName.Equals("en", StringComparison.OrdinalIgnoreCase)
+            ? "EN"
+            : "FR";
+
+    private async Task ToggleLanguage()
+    {
+        var next = System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName.Equals("en", StringComparison.OrdinalIgnoreCase)
+            ? "fr"
+            : "en";
+        await CultureService.SetCultureAsync(next);
+        NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
+    }
+
+    protected override void OnInitialized()
+    {
+        StateHasChanged();
+    }
+    
+    private Guid _subscriptionId = Guid.NewGuid();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _breakpoint = await ViewportService.GetCurrentBreakpointAsync();
+            await ViewportService.SubscribeAsync(_subscriptionId, async args =>
+            {
+                _breakpoint = args.Breakpoint;
+                await InvokeAsync(StateHasChanged);
+            }, new ResizeOptions { NotifyOnBreakpointOnly = true });
+            StateHasChanged();
+        }
+    }
+
+    private string GetCurrentYear()
+    {
+        return DateTime.Now.Year.ToString();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await ViewportService.UnsubscribeAsync(_subscriptionId);
+    }
+}

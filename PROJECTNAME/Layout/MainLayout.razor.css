@@ -1,0 +1,134 @@
+/* Layout Structure */
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+main {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* App Bar Styling */
+.layout-appbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1.5rem;
+}
+
+.layout-appbar ::deep .mud-icon-button {
+    margin: 0 0.5rem;
+}
+
+/* Drawer Styling */
+.layout-drawer {
+    transition: all 0.3s ease-in-out;
+}
+
+.drawer-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    background: linear-gradient(135deg, rgba(63, 81, 181, 0.1) 0%, rgba(103, 58, 183, 0.05) 100%);
+}
+
+.nav-menu {
+    margin-top: 1rem;
+}
+
+.nav-link {
+    margin: 0.25rem 0;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    background-color: rgba(63, 81, 181, 0.08);
+}
+
+/* Main Content Area */
+.layout-main-content {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background: linear-gradient(135deg, rgba(63, 81, 181, 0.02) 0%, rgba(103, 58, 183, 0.02) 100%);
+}
+
+.content-wrapper {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Footer Styling */
+.layout-footer {
+    padding: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    background: linear-gradient(135deg, rgba(63, 81, 181, 0.03) 0%, rgba(103, 58, 183, 0.03) 100%);
+    text-align: center;
+    margin-top: auto;
+}
+
+.footer-text {
+    color: rgba(0, 0, 0, 0.6);
+    font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 640.98px) {
+    .content-wrapper {
+        padding: 1.5rem;
+    }
+
+    .layout-footer {
+        padding: 1.5rem;
+    }
+
+    .drawer-header {
+        padding: 1rem;
+    }
+}
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .layout-drawer {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+        box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .layout-appbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .layout-main-content {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .content-wrapper {
+        padding: 2.5rem;
+    }
+}
